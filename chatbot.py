@@ -42,7 +42,13 @@ if "chat_started" not in st.session_state:
 
 
 # 채팅을 시작하는 함수 정의
-def start_chat():
+def start_chat() -> None:
+    """
+    선택된 모델과 캐릭터를 기반으로 채팅을 시작합니다.
+
+    Streamlit 세션 상태를 사용하여 사용자가 선택한 모델과 캐릭터 이름에 따라
+    언어 모델을 로드하고 대화 메모리를 설정하며, LLM 체인을 초기화합니다.
+    """
     llm = load_model(st.session_state.model_name)  # 선택된 모델을 로드합니다.
     st.session_state.chat_started = True  # 채팅 시작 상태를 True로 설정합니다.
     st.session_state.memory = set_memory()  # 메모리를 초기화합니다.
