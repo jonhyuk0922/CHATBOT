@@ -15,18 +15,22 @@ st.title("페르소나 챗봇")
 st.markdown("<br>", unsafe_allow_html=True)  # 브라우저에 줄 바꿈을 삽입합니다.
 
 # 사용자로부터 캐릭터를 선택받기 위한 드롭다운 메뉴 설정
-character_name = st.selectbox("**캐릭터를 골라줘!**", 
-                              ("baby_shark", "one_zero"), 
-                              index=0, 
-                              key="character_name_select")
+character_name = st.selectbox(
+    "**캐릭터를 골라줘!**",
+    ("baby_shark", "one_zero"),
+    index=0,
+    key="character_name_select",
+)
 # 선택된 캐릭터 이름을 세션 상태에 저장
 st.session_state.character_name = character_name
 
 # 사용자로부터 모델을 선택받기 위한 드롭다운 메뉴 설정
-model_name = st.selectbox("**모델을 골라줘!**", 
-                          ("gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"), 
-                          index=0, 
-                          key="model_name_select")
+model_name = st.selectbox(
+    "**모델을 골라줘!**",
+    ("gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"),
+    index=0,
+    key="model_name_select",
+)
 # 선택된 모델 이름을 세션 상태에 저장
 st.session_state.model_name = model_name
 
@@ -36,12 +40,16 @@ if "chat_started" not in st.session_state:
     st.session_state.memory = None
     st.session_state.chain = None
 
+
 # 채팅을 시작하는 함수 정의
 def start_chat():
     llm = load_model(st.session_state.model_name)  # 선택된 모델을 로드합니다.
     st.session_state.chat_started = True  # 채팅 시작 상태를 True로 설정합니다.
     st.session_state.memory = set_memory()  # 메모리를 초기화합니다.
-    st.session_state.chain = initialize_chain(llm, st.session_state.character_name, st.session_state.memory)  # 체인을 초기화합니다.
+    st.session_state.chain = initialize_chain(
+        llm, st.session_state.character_name, st.session_state.memory
+    )  # 체인을 초기화합니다.
+
 
 # "Start Chat" 버튼을 클릭했을 때 start_chat 함수를 호출
 if st.button("Start Chat"):
@@ -73,7 +81,9 @@ if st.session_state.chat_started:
         with st.chat_message("assistant"):  # AI 응답을 화면에 표시
             message_placeholder = st.empty()  # 응답을 표시할 자리 확보
             full_response = ""
-            response_content = generate_message(st.session_state.chain, prompt)  # AI 응답 생성
+            response_content = generate_message(
+                st.session_state.chain, prompt
+            )  # AI 응답 생성
 
             # 응답을 단어 단위로 나누어 점진적으로 화면에 표시
             for chunk in response_content.split():
