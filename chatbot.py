@@ -16,17 +16,21 @@ from langchain.memory import ConversationBufferMemory
 st.title("페르소나 챗봇")
 st.markdown("<br>", unsafe_allow_html=True)
 
-character_name = st.selectbox("**캐릭터를 골라줘!**", 
-                              ("baby_shark", "one_zero"), 
-                              index=0, 
-                              key="character_name_select")
+character_name = st.selectbox(
+    "**캐릭터를 골라줘!**",
+    ("baby_shark", "one_zero"),
+    index=0,
+    key="character_name_select",
+)
 
 st.session_state.character_name = character_name
 
-model_name = st.selectbox("**모델을 골라줘!**", 
-                          ("gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"), 
-                          index=0, 
-                          key="model_name_select")
+model_name = st.selectbox(
+    "**모델을 골라줘!**",
+    ("gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"),
+    index=0,
+    key="model_name_select",
+)
 
 st.session_state.model_name = model_name
 
@@ -35,6 +39,7 @@ if "chat_started" not in st.session_state:
     st.session_state.memory = None
     st.session_state.chain = None
 
+
 def start_chat() -> None:
     """
     선택된 모델과 캐릭터를 기반으로 채팅을 시작합니다.
@@ -42,7 +47,10 @@ def start_chat() -> None:
     llm = load_model(st.session_state.model_name)
     st.session_state.chat_started = True
     st.session_state.memory = set_memory()
-    st.session_state.chain = initialize_chain(llm, st.session_state.character_name, st.session_state.memory)
+    st.session_state.chain = initialize_chain(
+        llm, st.session_state.character_name, st.session_state.memory
+    )
+
 
 if st.button("Start Chat"):
     start_chat()
@@ -90,10 +98,10 @@ def load_model(model_name: str) -> ChatOpenAI:
         ChatOpenAI: 로드된 ChatOpenAI 모델.
     """
     load_dotenv()
-    
+
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     llm = ChatOpenAI(api_key=OPENAI_API_KEY, model_name=model_name)
-    return llm 
+    return llm
 
 
 def load_prompt(character_name: str) -> str:
@@ -121,7 +129,9 @@ def set_memory() -> ConversationBufferMemory:
     return ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
 
-def initialize_chain(llm: ChatOpenAI, character_name: str, memory: ConversationBufferMemory) -> LLMChain:
+def initialize_chain(
+    llm: ChatOpenAI, character_name: str, memory: ConversationBufferMemory
+) -> LLMChain:
     """
     주어진 LLM과 캐릭터 이름, 메모리를 기반으로 체인을 초기화합니다.
 
