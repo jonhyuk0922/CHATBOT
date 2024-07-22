@@ -1,3 +1,12 @@
+---
+name: Why issue template
+about: Describe this issue template's purpose here.
+title: "[여기보세요~!] "
+labels: ''
+assignees: ''
+
+---
+
 ## 이슈내용 정리
 
 
